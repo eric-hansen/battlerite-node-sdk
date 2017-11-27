@@ -1,2 +1,3 @@
-# battlerite-node-sdk
-SDK for BattleRite API written in Node
+# BattleRite Node SDK
+
+Unofficial SDK for BattleRite API written in Node.
