@@ -60,6 +60,8 @@ module.exports.getMatchesDetailed = function (searchCriteria) {
         });
 
         resolve(matchesData);
+      }).catch(function (err) {
+        reject(err);
       });
     }).catch(function (err) {
       reject(err);

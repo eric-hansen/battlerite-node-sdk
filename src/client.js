@@ -1,6 +1,6 @@
 let request = require('request-promise-native');
 
-const config = require('../../config');
+const config = require('../config');
 const util = require('util');
 
 module.exports.makeRequest = function (method, endpoint, data, isTelemetry) {
