@@ -30,14 +30,14 @@ If you want to contribute to this code, fork this project and submit a pull requ
 
 ## FAQ
 
-*I get an error after making x amount of calls in a minute, why?*
+**I get an error after making x amount of calls in a minute, why?**
 
 BattleRite's API is rate-limited to 10 requests/minute for development keys.  You can request an limit increase for a specific key through the portal.
 
-*What is BattleRite?!*
+**What is BattleRite?!**
 
 It's an arena game of fun destruction.  Most seem to want to call it a MOBA, and then get flamed.  You can YouTube it or check out the [BattleRite website](http://www.battlerite.com).
 
-*Why a SDK?*
+**Why a SDK?**
 
 Because these are fun and I thought it would be helpful contributing an SDK that does not potentially go against the ToS of the game.
