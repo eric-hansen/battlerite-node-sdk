@@ -1,8 +1,8 @@
-let request = require('request-promise-native');
-let _ = require('lodash');
-
-const config = require('../../config');
+const client = require('./client');
 const util = require('util');
+const telemetry = require('./telemetry');
+
+let _ = require('lodash');
 
 function cleanupMatchDataBlock(block) {
   // There's no harm in keeping this here (it's accessible regardless) but do it for now
@@ -11,62 +11,13 @@ function cleanupMatchDataBlock(block) {
   }
 }
 
-function makeRequest (method, endpoint, data, isTelemetry) {
-  const base = isTelemetry ? '' : util.format('%s/', config.base);
-
-  let uri = util.format('%s%s', base, endpoint);
-
-  let options = {
-    method: method.toUpperCase(),
-    uri: uri,
-    json: true,
-    gzip: true
-  };
-
-  if (!isTelemetry) {
-    options = Object.assign(options,
-      {
-        headers: {
-          authorization: config.apikey
-        }
-      });
-  }
-
-  return request(options);
-};
-
-module.exports.mapTelemetryAssetToObject = function (dataBlock, includedArray) {
-  let telemetryObject = _.filter(includedArray, {
-    'type': 'asset',
-    'id': dataBlock.relationships.assets.data[0].id,
-    'attributes': {
-      'name': 'telemetry'
-    }
-  });
-
-  dataBlock.telemetryUrl = telemetryObject[0].attributes.URL;
-}
-
-/**
- * Telemetry data is basically a snapshot of every event that happened within
- * a match.  Thisis the further details aspect of the match calls.
- */
-module.exports.getTelementryData = function (matchObject) {
-  return new Promise(function (resolve, reject) {
-    makeRequest('get', matchObject.telemetryUrl, null, true).then(function (data) {
-      matchObject.telemetry = data;
-      resolve(matchObject);
-    });
-  });
-};
-
 /**
  * Get basic match information of the last 3 hours (default).
  * To get futher information about matches, call the getMatchesDetailed method.
  */
 module.exports.getMatchesBasic = function (searchCriteria) {
   // @TODO: Implement search filtering stuff
-  return makeRequest('get', 'matches');
+  return client.makeRequest('get', 'matches');
 };
 
 /**
@@ -74,7 +25,7 @@ module.exports.getMatchesBasic = function (searchCriteria) {
  * To get further information about the match, call the getMatchDetailed method.
  */
 module.exports.getMatchBasic = function (matchId) {
-  return makeRequest('get', util.format('matches/%s', matchId));
+  return client.makeRequest('get', util.format('matches/%s', matchId));
 };
 
 /**
@@ -84,8 +35,6 @@ module.exports.getMatchBasic = function (matchId) {
  */
 module.exports.getMatchesDetailed = function (searchCriteria) {
   // @TODO: Implement search filtering stuff
-  
-  let that = this;
 
   /**
    * The damage here is that we need to get the matches first, and then
@@ -98,12 +47,12 @@ module.exports.getMatchesDetailed = function (searchCriteria) {
    * store it in it's appropriate data block.
    */
   return new Promise(function (resolve, reject) {
-    return makeRequest('get', 'matches').then(function (matchesData) {
+    return client.makeRequest('get', 'matches').then(function (matchesData) {
       matchesData.data = _.forEach(matchesData.data, function (dataBlock) {
-        that.mapTelemetryAssetToObject(dataBlock, matchesData.included);
+        telemetry.mapTelemetryAssetToObject(dataBlock, matchesData.included);
       });
 
-      Promise.all(matchesData.data.map(that.getTelementryData)).then(function (resolver) {
+      Promise.all(matchesData.data.map(telemetry.getTelementryData)).then(function (resolver) {
         // Do some clean up here
         matchesData.data = _.forEach(resolver, function (dataBlockRevised) {
           // We don't need to delete this, but for now we will
@@ -119,13 +68,12 @@ module.exports.getMatchesDetailed = function (searchCriteria) {
 }
 
 module.exports.getMatchDetailed = function (matchId) {
-  let that = this;
 
   return new Promise(function (resolve, reject) {
-    return makeRequest('get', util.format('matches/%s', matchId)).then(function (matchData) {
-      that.mapTelemetryAssetToObject(matchData.data, matchData.included);
+    return client.makeRequest('get', util.format('matches/%s', matchId)).then(function (matchData) {
+      telemetry.mapTelemetryAssetToObject(matchData.data, matchData.included);
 
-      that.getTelementryData(matchData.data).then(function (resolver) {
+      telemetry.getTelementryData(matchData.data).then(function (resolver) {
         matchData.data = resolver;
 
         cleanupMatchDataBlock(matchData.data);
