@@ -4,6 +4,13 @@ let _ = require('lodash');
 const config = require('../../config');
 const util = require('util');
 
+function cleanupMatchDataBlock(block) {
+  // There's no harm in keeping this here (it's accessible regardless) but do it for now
+  if (block.hasOwnProperty('telemetryUrl')) {
+    delete block.telemetryUrl;
+  }
+}
+
 function makeRequest (method, endpoint, data, isTelemetry) {
   const base = isTelemetry ? '' : util.format('%s/', config.base);
 
@@ -80,6 +87,16 @@ module.exports.getMatchesDetailed = function (searchCriteria) {
   
   let that = this;
 
+  /**
+   * The damage here is that we need to get the matches first, and then
+   * we need to get supporting data for each match separately.
+   * 
+   * So, the flow here is to get the matches data, and then get the telemetry URL
+   * for each match, and store it in that match's data block.
+   * 
+   * We then make the call to fetch the JSON data for each telemetry URL and
+   * store it in it's appropriate data block.
+   */
   return new Promise(function (resolve, reject) {
     return makeRequest('get', 'matches').then(function (matchesData) {
       matchesData.data = _.forEach(matchesData.data, function (dataBlock) {
@@ -90,7 +107,7 @@ module.exports.getMatchesDetailed = function (searchCriteria) {
         // Do some clean up here
         matchesData.data = _.forEach(resolver, function (dataBlockRevised) {
           // We don't need to delete this, but for now we will
-          delete dataBlockRevised.telemetryUrl;
+          cleanupMatchDataBlock(dataBlockRevised);
         });
 
         resolve(matchesData);
@@ -111,7 +128,7 @@ module.exports.getMatchDetailed = function (matchId) {
       that.getTelementryData(matchData.data).then(function (resolver) {
         matchData.data = resolver;
 
-        delete matchData.data.telemetryUrl;
+        cleanupMatchDataBlock(matchData.data);
 
         resolve(matchData);
       }).catch(function (err) {
