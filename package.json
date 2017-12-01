@@ -1,5 +1,5 @@
 {
-  "name": "battlerite-node-sdk",
+  "name": "battlerite-sdk",
   "version": "1.0.0",
   "description": "Unofficial SDK for BattleRite",
   "main": "src/index.js",
@@ -8,20 +8,21 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/eric-hansen/battlerite-node-sdk.git"
+    "url": "git+https://github.com/eric-hansen/battlerite-sdk.git"
   },
   "keywords": [
     "battle",
     "rite",
     "battlerite",
-    "sdk"
+    "sdk",
+    "api"
   ],
   "author": "Eric Hansen",
   "license": "SEE LICENSE IN LICENSE",
   "bugs": {
-    "url": "https://github.com/eric-hansen/battlerite-node-sdk/issues"
+    "url": "https://github.com/eric-hansen/battlerite-sdk/issues"
   },
-  "homepage": "https://github.com/eric-hansen/battlerite-node-sdk#readme",
+  "homepage": "https://github.com/eric-hansen/battlerite-sdk#readme",
   "dependencies": {
     "lodash": "^4.17.4",
     "request": "^2.83.0",
