@@ -1,7 +1,16 @@
-const client = require('./client');
-const util = require('util');
+/**
+ * BattleRite docs: http://battlerite-docs.readthedocs.io/en/latest/telemetry/telemetry.html
+ */
 
-let _ = require('lodash');
+const util = require('util');
+const _ = require('lodash');
+
+let client = null;
+
+module.exports.init = function (apiKey, apiBase) {
+  client = require('./client');
+  client.init(apiKey, apiBase);
+};
 
 function cleanupMatchDataBlock(block) {
   // There's no harm in keeping this here (it's accessible regardless) but do it for now

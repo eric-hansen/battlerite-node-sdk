@@ -1,10 +1,16 @@
 let request = require('request-promise-native');
+let apiBase = '';
+let apiKey = '';
 
-const config = require('../config');
 const util = require('util');
 
+module.exports.init = function (key, base) {
+  apiKey = key;
+  apiBase = base || 'https://api.dc01.gamelockerapp.com/shards/global';
+};
+
 module.exports.makeRequest = function (method, endpoint, data, isTelemetry) {
-  const base = isTelemetry ? '' : util.format('%s/', config.base);
+  const base = isTelemetry ? '' : util.format('%s/', apiBase);
 
   let uri = util.format('%s%s', base, endpoint);
 
@@ -19,7 +25,7 @@ module.exports.makeRequest = function (method, endpoint, data, isTelemetry) {
     options = Object.assign(options,
       {
         headers: {
-          authorization: config.apikey
+          authorization: apiKey
         }
       });
   }

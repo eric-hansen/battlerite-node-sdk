@@ -1,8 +1,12 @@
-const client = require('./client');
-const util = require('util');
-const telemetry = require('./telemetry');
+/**
+ * BattleRite docs: http://battlerite-docs.readthedocs.io/en/latest/matches/matches.html
+ */
 
-let _ = require('lodash');
+const util = require('util');
+const _ = require('lodash');
+
+let client = null;
+let telemetry = null;
 
 function cleanupMatchDataBlock(block) {
   // There's no harm in keeping this here (it's accessible regardless) but do it for now
@@ -10,6 +14,13 @@ function cleanupMatchDataBlock(block) {
     delete block.telemetryUrl;
   }
 }
+
+module.exports.init = function (apiKey, apiBase) {
+  client = require('./client');
+  client.init(apiKey, apiBase);
+  telemetry = require('./telemetry');
+  telemetry.init(apiKey, apiBase);
+};
 
 /**
  * Get basic match information of the last 3 hours (default).

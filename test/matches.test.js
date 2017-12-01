@@ -4,10 +4,12 @@ let describe = require('mocha').describe;
 let it = require('mocha').it;
 let matches = require('../src/matches');
 
-const config = require('../config');
-
 describe('matches:', function () {
 
+  before(function () {
+    matches.init(process.env.BR_API_KEY);
+  });
+  
   describe('getMatchesBasic:', function () {
 
     it('should return match data', function () {
