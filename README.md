@@ -24,7 +24,7 @@ The SDK requests compressed data to save on bandwidth, which may add some extra 
 
 ## How To Use
 
-```
+```javascript
 const battleriteSdk = require('battlerite-sdk');
 battleriteSdk.init('your API key here');
 
