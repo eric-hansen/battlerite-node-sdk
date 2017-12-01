@@ -22,6 +22,21 @@ However, there is the additional *Detailed calls that will return more informati
 
 The SDK requests compressed data to save on bandwidth, which may add some extra overhead.  I am considering making this an opt-out option via config.json in the future.
 
+## How To Use
+
+```
+const battleriteSdk = require('battlerite-sdk');
+battleriteSdk.init('your API key here');
+
+battlewriteSdk.matches.getMatchesBasic().then(function (data) {
+  // some way to handle this data
+});
+```
+
+The above is just one of the calles you'll have exposed.  Method names are a WIP as this just went under a restructure of how the module is loaded and handled.
+
+The `ini` call of the module constant (`battleriteSdk`) has an optional 2nd param to put in a different API base URL.  However, only 1 is currently available so it defaults to that.
+
 ## Contributions
 
 If you have any suggestions on how to make this better just file an issue.
