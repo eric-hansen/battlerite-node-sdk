@@ -1,5 +1,5 @@
 {
-  "name": "battlerite-sdk",
+  "name": "battlerite-node-sdk",
   "version": "1.0.0",
   "description": "Unofficial SDK for BattleRite",
   "main": "src/index.js",
