@@ -4,6 +4,10 @@ let apiKey = '';
 
 const util = require('util');
 
+module.exports.getApiBase = function () {
+  return apiBase;
+};
+
 module.exports.init = function (key, base) {
   apiKey = key;
   apiBase = base || 'https://api.dc01.gamelockerapp.com/shards/global';
@@ -11,8 +15,12 @@ module.exports.init = function (key, base) {
 
 module.exports.makeRequest = function (method, endpoint, data, isTelemetry) {
   const base = isTelemetry ? '' : util.format('%s/', apiBase);
-
+  
   let uri = util.format('%s%s', base, endpoint);
+
+  if (endpoint === 'status') {
+    uri = uri.replace('shards/global/', '');
+  }
 
   let options = {
     method: method.toUpperCase(),
@@ -21,14 +29,11 @@ module.exports.makeRequest = function (method, endpoint, data, isTelemetry) {
     gzip: true
   };
 
-  if (!isTelemetry) {
-    options = Object.assign(options,
-      {
-        headers: {
-          authorization: apiKey
-        }
-      });
-  }
+  options = isTelemetry ? options : Object.assign(options, {
+    headers: {
+      authorization: apiKey
+    }
+  });
 
   return request(options);
 };
