@@ -10,5 +10,8 @@ module.exports.init = function (apiKey, apiBase) {
 };
 
 module.exports.getPlayers = function () {
+  // Below istanbul line should be removed once the players endpoint is available via API.
+
+  /* istanbul ignore next */
   return client.makeRequest('get', 'players');
 };
