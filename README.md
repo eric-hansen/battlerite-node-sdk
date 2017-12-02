@@ -37,6 +37,58 @@ The above is just one of the calles you'll have exposed.  Method names are a WIP
 
 The `ini` call of the module constant (`battleriteSdk`) has an optional 2nd param to put in a different API base URL.  However, only 1 is currently available so it defaults to that.
 
+## SDK Methods
+
+To get an idea of how to use this in your own code, and an idea of what the various calls return, see `example.js`.
+
+### Matches
+
+* `getMatchesBasic` returns an overview of the last 5 matches within the past 3 hours
+* `getMatchesDetailed` returns the same above data, but each match also has a `telemetry` element that provides insights to various actions within each match
+* `getMatchBasic` same as `getMatchesBasic` but for a single match.  Required param is the match ID
+* `getMatchDetailed` same as `getMatchesDetailed` but for a single match.  Required param is the match ID
+
+**Notes**
+
+`getMatchBasic` and `getMatchDetailed` do not allow any filtering outside of the use of match ID.
+
+`getMatchesBasic` and `getMatchesDetailed` allow search filtering by passing in an object structured like so:
+
+```json
+{
+  "page": {
+    "offset": 0,
+    "limit": 5
+  },
+  "sort": "createdAt",
+  "filter": {
+    "createdAt-start": "Now-28days",
+    "createdAt-end": "Now",
+    "playerIds": [],
+    "teamNames": [],
+    "gameMode": []
+  }
+}
+```
+
+The SDK will convert the above mapping to the proper structure.  Each of the above are the defaults as per API docs.
+
+With that said, here are notes as needed:
+
+* `page.offset` - Allows paging over results
+* `page.limit` - Has a range of 1-5
+* `sort` - Element within the `data[n]` block to sort results by
+* `filter.createdAt-*` - Format is in ISO8601 if not using English-like syntax (i.e.: 2017-01-01T13:25:30Z)
+* `filter.playerIds` - An array of player ID(s) to filter through
+* `filter.teamNames` - If trying to get results fo any team(s), their name goes within the array
+* `filter.gameMode` - Value(s) are of casual, ranked, etc...
+
+### Players
+
+*This endpoint is not yet available at time of this writing, so not much work is done.*
+
+* `getPlayers` returns an array of players.
+
 ## Contributions
 
 If you have any suggestions on how to make this better just file an issue.
