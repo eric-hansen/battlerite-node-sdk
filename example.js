@@ -1,4 +1,4 @@
-let battleriteSdk = require('.');
+let battleriteSdk = require('battlerite-sdk');
 
 battleriteSdk.init('API_KEY_HERE');
 
