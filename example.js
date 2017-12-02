@@ -3,7 +3,7 @@ let battleriteSdk = require('battlerite-sdk');
 battleriteSdk.init('API_KEY_HERE');
 
 const filter = {
-  'sort': 'createdAt',
+  'sort': 'duration',
   'filter': {
     'gameMode': ['ranked', 'battlegrounds']
   }
