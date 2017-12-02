@@ -1,3 +1,12 @@
+/**
+ * Please note that this file is not meant in any way to be a cookie-cutter template.
+ * This is simply to show you how to use this SDK as well as what the data structure should
+ * look like on successful calls.
+ * 
+ * The examples are copoy/pasted straight from the BattleRite API docs except for
+ * the `telemetry` blocks.  Those are added in by the SDK itself.
+ */
+
 let battleriteSdk = require('battlerite-sdk');
 
 battleriteSdk.init('API_KEY_HERE');
