@@ -2,6 +2,8 @@
 
 Unofficial SDK for BattleRite API written in Node.
 
+[![NPM](https://nodei.co/npm/battlerite-node-sdk.png)](https://npmjs.org/package/battlerite-node-sdk)
+
 ## Installation
 
 Using npm:
