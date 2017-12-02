@@ -4,12 +4,15 @@
 
 const util = require('util');
 const _ = require('lodash');
+const helpers = require('./utils');
 
 let client = null;
 let telemetry = null;
 
 function cleanupMatchDataBlock(block) {
   // There's no harm in keeping this here (it's accessible regardless) but do it for now
+
+  /* istanbul ignore else */
   if (block.hasOwnProperty('telemetryUrl')) {
     delete block.telemetryUrl;
   }
@@ -20,6 +23,38 @@ module.exports.init = function (apiKey, apiBase) {
   client.init(apiKey, apiBase);
   telemetry = require('./telemetry');
   telemetry.init(apiKey, apiBase);
+};
+
+/**
+ * This is mostly just exposed so I can provide testing of just this.
+ * 
+ * Structure expected:
+ * 
+ * {
+  "page": {
+    "offset": 0,
+    "limit": 5
+  },
+  "sort": "createdAt",
+  "filter": {
+    "createdAt-start": "Now-28days",
+    "createdAt-end": "Now",
+    "playerIds": [],
+    "teamNames": [],
+    "gameMode": []
+  }
+}
+ */
+module.exports.parseSearchCriteria = function(criteria) {
+  let parsedObject = helpers.flattenObject(criteria);
+  let keys = _.keys(parsedObject);
+  let resultArray = [];
+
+  _.forEach(keys, function (key) {
+    resultArray.push(util.format("%s=%s", key, parsedObject[key]));
+  });
+
+  return _.join(resultArray, '&');
 };
 
 /**
@@ -72,9 +107,18 @@ module.exports.getMatchesDetailed = function (searchCriteria) {
 
         resolve(matchesData);
       }).catch(function (err) {
+        /**
+         * Unless I mock the response here this isn't testable, and would also
+         * be du to the API changing, not due to my code.
+         */
+        
+        /* istanbul ignore next */
         reject(err);
       });
     }).catch(function (err) {
+      // An error with Request is not exactly reproducable and should not be something I need to validate.
+
+      /* istanbul ignore next */
       reject(err);
     });
   });
@@ -93,6 +137,9 @@ module.exports.getMatchDetailed = function (matchId) {
 
         resolve(matchData);
       }).catch(function (err) {
+        // An error with Request is not exactly reproducable and should not be something I need to validate.
+
+        /* istanbul ignore next */
         reject(err);
       });
     }).catch(function (err) {
