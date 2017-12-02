@@ -4,7 +4,10 @@
   "description": "Unofficial SDK for BattleRite",
   "main": "src/index.js",
   "scripts": {
-    "test": "./node_modules/mocha/bin/mocha -c --debug-brk"
+    "test": "./node_modules/mocha/bin/mocha -c",
+    "cov": "nyc --reporter=text ./node_modules/mocha/bin/mocha -c",
+    "cov-html": "nyc --reporter=html ./node_modules/mocha/bin/mocha -c",
+    "test-debug": "./node_modules/mocha/bin/mocha -c --debug-brk"
   },
   "repository": {
     "type": "git",
@@ -30,6 +33,7 @@
   },
   "devDependencies": {
     "chai": "^4.1.2",
-    "mocha": "^4.0.1"
+    "mocha": "^4.0.1",
+    "nyc": "^11.3.0"
   }
 }
