@@ -12,13 +12,6 @@ module.exports.init = function (apiKey, apiBase) {
   client.init(apiKey, apiBase);
 };
 
-function cleanupMatchDataBlock(block) {
-  // There's no harm in keeping this here (it's accessible regardless) but do it for now
-  if (block.hasOwnProperty('telemetryUrl')) {
-    delete block.telemetryUrl;
-  }
-}
-
 module.exports.mapTelemetryAssetToObject = function (dataBlock, includedArray) {
   let telemetryObject = _.filter(includedArray, {
     'type': 'asset',
