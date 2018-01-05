@@ -87,9 +87,11 @@ With that said, here are notes as needed:
 
 ### Players
 
-*This endpoint is not yet available at time of this writing, so not much work is done.*
-
 * `getPlayers` returns an array of players.
+
+### Teams
+
+* @TODO
 
 ## Contributions
 
