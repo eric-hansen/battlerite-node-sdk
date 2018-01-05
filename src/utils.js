@@ -87,3 +87,35 @@ module.exports.sleep = function (inSeconds) {
   let delay = new Date(new Date().getTime() + inSeconds * 1000);
   while (delay > new Date()) { }
 };
+
+/**
+ * This is mostly just exposed so I can provide testing of just this.
+ * 
+ * Structure expected:
+ * 
+ * {
+  "page": {
+    "offset": 0,
+    "limit": 5
+  },
+  "sort": "createdAt",
+  "filter": {
+    "createdAt-start": "Now-28days",
+    "createdAt-end": "Now",
+    "playerIds": [],
+    "teamNames": [],
+    "gameMode": []
+  }
+}
+ */
+module.exports.parseSearchCriteria = function (criteria) {
+  let parsedObject = this.flattenedObject(criteria);
+  let keys = _.keys(parsedObject);
+  let resultArray = [];
+
+  _.forEach(keys, function (key) {
+    resultArray.push(util.format("%s=%s", key, parsedObject[key]));
+  });
+
+  return _.join(resultArray, '&');
+};

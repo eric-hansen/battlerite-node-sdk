@@ -259,4 +259,67 @@ describe('utils:', function () {
       done();
     });
   });
+
+  describe('parseSearchCriteria', function () {
+
+    it('should return a URI-friendly string with single-ement arrays', function (done) {
+
+      let result = matches.parseSearchCriteria({
+        "page": {
+          "offset": 0,
+          "limit": 5
+        },
+        "sort": "createdAt",
+        "filter": {
+          "createdAt-start": "Now-28days",
+          "createdAt-end": "Now",
+          "playerIds": [1],
+          "teamNames": ['HI'],
+          "gameMode": ['ranked']
+        }
+      });
+
+      should.exist(result);
+      expect(result).to.have.string('page[offset]=0');
+      expect(result).to.have.string('page[limit]=5');
+      expect(result).to.have.string('sort=createdAt');
+      expect(result).to.have.string('filter[createdAt-start]=Now-28days');
+      expect(result).to.have.string('filter[createdAt-end]=Now');
+      expect(result).to.have.string('filter[playerIds]=1');
+      expect(result).to.have.string('filter[teamNames]=HI');
+      expect(result).to.have.string('filter[gameMode]=ranked');
+
+      done();
+    });
+
+    it('should return a URI-friendly string with multi-ement arrays', function (done) {
+
+      let result = matches.parseSearchCriteria({
+        "page": {
+          "offset": 0,
+          "limit": 5
+        },
+        "sort": "createdAt",
+        "filter": {
+          "createdAt-start": "Now-28days",
+          "createdAt-end": "Now",
+          "playerIds": [1, 2, 3],
+          "teamNames": ['HI', 'george', 123141],
+          "gameMode": ['ranked', 'casual']
+        }
+      });
+
+      should.exist(result);
+      expect(result).to.have.string('page[offset]=0');
+      expect(result).to.have.string('page[limit]=5');
+      expect(result).to.have.string('sort=createdAt');
+      expect(result).to.have.string('filter[createdAt-start]=Now-28days');
+      expect(result).to.have.string('filter[createdAt-end]=Now');
+      expect(result).to.have.string('filter[playerIds]=1,2,3');
+      expect(result).to.have.string('filter[teamNames]=HI,george,123141');
+      expect(result).to.have.string('filter[gameMode]=ranked,casual');
+
+      done();
+    });
+  });
 });
