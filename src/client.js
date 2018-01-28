@@ -31,9 +31,17 @@ module.exports.makeRequest = function (method, endpoint, data, isTelemetry) {
 
   options = isTelemetry ? options : Object.assign(options, {
     headers: {
-      authorization: apiKey
+      authorization: util.format("Bearer %s", apiKey)
     }
   });
 
-  return request(options);
+  return new Promise(function (resolve, reject) {
+    request(options).then(function (result) {
+      resolve(result);
+    }).catch(function (error) {
+      let errorResult = error.hasOwnProperty('error') ? error.error : error;
+
+      reject(errorResult);
+    });
+  });
 };

@@ -264,7 +264,7 @@ describe('utils:', function () {
 
     it('should return a URI-friendly string with single-ement arrays', function (done) {
 
-      let result = matches.parseSearchCriteria({
+      let result = utils.parseSearchCriteria({
         "page": {
           "offset": 0,
           "limit": 5
@@ -294,7 +294,7 @@ describe('utils:', function () {
 
     it('should return a URI-friendly string with multi-ement arrays', function (done) {
 
-      let result = matches.parseSearchCriteria({
+      let result = utils.parseSearchCriteria({
         "page": {
           "offset": 0,
           "limit": 5

@@ -109,7 +109,7 @@ module.exports.sleep = function (inSeconds) {
 }
  */
 module.exports.parseSearchCriteria = function (criteria) {
-  let parsedObject = this.flattenedObject(criteria);
+  let parsedObject = this.flattenObject(criteria);
   let keys = _.keys(parsedObject);
   let resultArray = [];
 
