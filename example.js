@@ -550,6 +550,60 @@ battleriteSdk.matches.getMatchDetailed('MATCH_ID_HERE').then(function (match) {
   };
 });
 
+battleriteSdk.players.getPlayers({ filter: { playerIds: [123123] } }).then(function (playerInfo) {
+  playerInfo = {
+    "data": [{
+      "type": "player",
+      "id": "931405258914193408",
+      "attributes": {
+        "name": "",
+        "patchVersion": "",
+        "shardId": "",
+        "stats": {
+          ...
+      }
+      "titleId": ""
+      },
+      "relationships": {
+        "assets": {
+          "data": []
+        }
+      }],
+      "links": {
+        "schema": "https://raw.githubusercontent.com/madglory/gamelocker-/master/schemas/player_index.json",
+        "self": "https://api.dc01.gamelockerapp.com/shards/global/players/931405258914193408"
+      }
+    }
+  }
+});
+
+battleriteSdk.players.getPlayer(123123).then(function (playerInfo) {
+  playerInfo = {
+    "data": {
+      "type": "player",
+      "id": "931405258914193408",
+      "attributes": {
+        "name": "",
+        "patchVersion": "",
+        "shardId": "",
+        "stats": {
+          ...
+      }
+      "titleId": ""
+      },
+      "relationships": {
+        "assets": {
+          "data": []
+        }
+      },
+      "links": {
+        "schema": "https://raw.githubusercontent.com/madglory/gamelocker-/master/schemas/player_index.json",
+        "self": "https://api.dc01.gamelockerapp.com/shards/global/players/931405258914193408"
+      }
+    }
+  }
+});
+
 /**
  * Get BattleRite API status information
  */
