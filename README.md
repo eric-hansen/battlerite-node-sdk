@@ -16,14 +16,6 @@ To use this you need to register as a [BattleRite developer](https://developer.b
 
 I had to use an API key to properly validate this, and the key is required if you wish to run the tests.
 
-## Available Data
-
-Right now the BattleRite API only supports getting match data.  So all that the SDK allows is getting a group, or single, match.
-
-However, there is the additional *Detailed calls that will return more information about each match, at the cost of more round trips (this requires 2 API calls).
-
-The SDK requests compressed data to save on bandwidth, which may add some extra overhead.  I am considering making this an opt-out option via config.json in the future.
-
 ## How To Use
 
 ```javascript
@@ -38,6 +30,10 @@ battlewriteSdk.matches.getMatchesBasic().then(function (data) {
 The above is just one of the calles you'll have exposed.  Method names are a WIP as this just went under a restructure of how the module is loaded and handled.
 
 The `ini` call of the module constant (`battleriteSdk`) has an optional 2nd param to put in a different API base URL.  However, only 1 is currently available so it defaults to that.
+
+## Errors
+
+Before the client.js call would just return the Promise from request.  This is no longer the case, as the `error` object is now returned, which will in turn provide a `errors` an array.  Basically, instead of just being a simple proxy, it returns a little bit less information.
 
 ## SDK Methods
 
@@ -88,10 +84,11 @@ With that said, here are notes as needed:
 ### Players
 
 * `getPlayers` returns an array of players.
+* `getPlayer` returns a single player object
 
 ### Teams
 
-* @TODO
+* `getTeams` returns a list of events by team and/or season
 
 ## Contributions
 
@@ -103,7 +100,7 @@ If you want to contribute to this code, fork this project and submit a pull requ
 
 **I get an error after making x amount of calls in a minute, why?**
 
-BattleRite's API is rate-limited to 10 requests/minute for development keys.  You can request an limit increase for a specific key through the portal.
+BattleRite's API is rate-limited to 50 requests/minute for development keys.  You can request an limit increase for a specific key through the portal.
 
 **What is BattleRite?!**
 
