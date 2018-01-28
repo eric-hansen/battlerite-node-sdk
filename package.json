@@ -4,9 +4,9 @@
   "description": "Unofficial SDK for BattleRite",
   "main": "src/index.js",
   "scripts": {
-    "test": "./node_modules/mocha/bin/mocha -c",
-    "cov": "nyc --reporter=text ./node_modules/mocha/bin/mocha -c",
-    "cov-html": "nyc --reporter=html ./node_modules/mocha/bin/mocha -c",
+    "test": "./node_modules/mocha/bin/mocha -c --timeout 10000",
+    "cov": "nyc --reporter=text ./node_modules/mocha/bin/mocha -c --timeout 10000",
+    "cov-html": "nyc --reporter=html ./node_modules/mocha/bin/mocha -c --timeout 10000",
     "test-debug": "./node_modules/mocha/bin/mocha -c --debug-brk"
   },
   "repository": {

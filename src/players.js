@@ -12,9 +12,7 @@ module.exports.init = function (apiKey, apiBase) {
 };
 
 module.exports.getPlayers = function (searchCriteria) {
-  let parsedSearchCriteria = utils.parseSearchCriteria(searchCriteria);
-
-  return client.makeRequest('get', util.format("players?%s", parsedSearchCriteria));
+  return client.makeRequest('get', utils.setSearchCriteriaForEndpoint('players', searchCriteria));
 };
 
 module.exports.getPlayer = function (playerId) {

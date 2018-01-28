@@ -90,7 +90,7 @@ module.exports.getMatchesDetailed = function (searchCriteria) {
       reject(err);
     });
   });
-}
+};
 
 module.exports.getMatchDetailed = function (matchId) {
 

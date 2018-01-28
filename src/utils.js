@@ -107,6 +107,8 @@ module.exports.sleep = function (inSeconds) {
     "gameMode": []
   }
 }
+
+ * @param {object} criteria
  */
 module.exports.parseSearchCriteria = function (criteria) {
   let parsedObject = this.flattenObject(criteria);
@@ -118,4 +120,14 @@ module.exports.parseSearchCriteria = function (criteria) {
   });
 
   return _.join(resultArray, '&');
+};
+
+/**
+ * Formats the criteria for URI-friendliness and appends it to the endpoint.
+ * 
+ * @param {string} endpoint 
+ * @param {object} criteria 
+ */
+module.exports.setSearchCriteriaForEndpoint = function (endpoint, criteria) {
+  return util.format('%s?%s', endpoint, this.parseSearchCriteria(criteria));
 };

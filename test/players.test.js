@@ -4,13 +4,13 @@ let describe = require('mocha').describe;
 let it = require('mocha').it;
 let players = require('../src/players');
 
-describe.only('players:', function () {
+describe('players:', function () {
 
   before(function () {
     players.init(process.env.BR_API_KEY);
   });
 
-  describe.only('getPlayer:', function () {
+  describe('getPlayer:', function () {
 
     it('should return an error with no player id', function () {
       return players.getPlayer().catch(function (result) {

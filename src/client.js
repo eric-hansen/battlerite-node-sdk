@@ -39,9 +39,7 @@ module.exports.makeRequest = function (method, endpoint, data, isTelemetry) {
     request(options).then(function (result) {
       resolve(result);
     }).catch(function (error) {
-      let errorResult = error.hasOwnProperty('error') ? error.error : error;
-
-      reject(errorResult);
+      reject(error.error);
     });
   });
 };

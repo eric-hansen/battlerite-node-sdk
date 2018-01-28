@@ -69,11 +69,10 @@ describe('matches:', function () {
     it('given invalid match should return error', function () {
       return matches.getMatchDetailed('_').catch(function (result) {
         should.exist(result);
-        expect(result).to.have.property('error');
-        expect(result.error).to.have.property('errors');
-        expect(result.error.errors.length).to.be.at.least(1);
-        expect(result.error.errors[0]).to.have.property('title');
-        expect(result.error.errors[0].title).to.equal('Not Found');
+        expect(result).to.have.property('errors');
+        expect(result.errors.length).to.be.at.least(1);
+        expect(result.errors[0]).to.have.property('title');
+        expect(result.errors[0].title).to.equal('Not Found');
       });
     });
 
@@ -82,11 +81,10 @@ describe('matches:', function () {
 
       return matches.getMatchDetailed('AB9C81FABFD748C8A7EC545AA6AF97CC').catch(function (result) {
         should.exist(result);
-        expect(result).to.have.property('error');
-        expect(result.error).to.have.property('errors');
-        expect(result.error.errors.length).to.be.at.least(1);
-        expect(result.error.errors[0]).to.have.property('title');
-        expect(result.error.errors[0].title).to.equal('Unauthorized');
+        expect(result).to.have.property('errors');
+        expect(result.errors.length).to.be.at.least(1);
+        expect(result.errors[0]).to.have.property('title');
+        expect(result.errors[0].title).to.equal('Unauthorized');
       });
     });
   });
