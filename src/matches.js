@@ -4,7 +4,7 @@
 
 const util = require('util');
 const _ = require('lodash');
-const helpers = require('./utils');
+const utils = require('./utils');
 
 let client = null;
 let telemetry = null;
@@ -30,8 +30,7 @@ module.exports.init = function (apiKey, apiBase) {
  * To get futher information about matches, call the getMatchesDetailed method.
  */
 module.exports.getMatchesBasic = function (searchCriteria) {
-  // @TODO: Implement search filtering stuff
-  return client.makeRequest('get', 'matches');
+  return client.makeRequest('get', utils.setSearchCriteriaForEndpoint('matches', searchCriteria));
 };
 
 /**
@@ -48,8 +47,6 @@ module.exports.getMatchBasic = function (matchId) {
  * performance.
  */
 module.exports.getMatchesDetailed = function (searchCriteria) {
-  // @TODO: Implement search filtering stuff
-
   /**
    * The damage here is that we need to get the matches first, and then
    * we need to get supporting data for each match separately.
@@ -61,7 +58,7 @@ module.exports.getMatchesDetailed = function (searchCriteria) {
    * store it in it's appropriate data block.
    */
   return new Promise(function (resolve, reject) {
-    return client.makeRequest('get', 'matches').then(function (matchesData) {
+    return client.makeRequest('get', utils.setSearchCriteriaForEndpoint('matches', searchCriteria)).then(function (matchesData) {
       matchesData.data = _.forEach(matchesData.data, function (dataBlock) {
         telemetry.mapTelemetryAssetToObject(dataBlock, matchesData.included);
       });
